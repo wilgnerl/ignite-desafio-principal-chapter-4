@@ -33,8 +33,6 @@ describe('CreateStatement UseCase', () => {
       description: "any_description"
     });
 
-    console.log(deposit);
-
     expect(deposit).toHaveProperty("id");
     expect(deposit).toHaveProperty("user_id");
     expect(deposit).toHaveProperty("amount");
@@ -44,7 +42,7 @@ describe('CreateStatement UseCase', () => {
 
   });
 
-  test('should be able to create a deposit statement', async () => {
+  test('should be able to create a withdraw statement', async () => {
     const user = await usersepositoryInMemory.create({
       name: "any_name",
       password: "any_password",
@@ -82,7 +80,8 @@ describe('CreateStatement UseCase', () => {
       });
     }).rejects.toBeInstanceOf(CreateStatementError.UserNotFound);
   });
-  test('should not be able to create a statement if user not exists', async () => {
+
+  test('should not be able to create a statement if amount > balance', async () => {
     expect(async () => {
       const user = await usersepositoryInMemory.create({
         name: "any_name",
