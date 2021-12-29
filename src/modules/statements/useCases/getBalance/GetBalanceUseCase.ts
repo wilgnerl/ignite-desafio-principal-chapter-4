@@ -14,20 +14,20 @@ interface IResponse {
   balance: number;
 }
 
-@injectable()
+// @injectable()
 export class GetBalanceUseCase {
   constructor(
-    @inject('StatementsRepository')
+    // @inject('StatementsRepository')
     private statementsRepository: IStatementsRepository,
 
-    @inject('UsersRepository')
+    // @inject('UsersRepository')
     private usersRepository: IUsersRepository,
-  ) {}
+  ) { }
 
   async execute({ user_id }: IRequest): Promise<IResponse> {
     const user = await this.usersRepository.findById(user_id);
 
-    if(!user) {
+    if (!user) {
       throw new GetBalanceError();
     }
 
