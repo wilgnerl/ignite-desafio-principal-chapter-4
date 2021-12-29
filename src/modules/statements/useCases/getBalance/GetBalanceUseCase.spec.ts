@@ -1,5 +1,6 @@
 import { InMemoryUsersRepository } from "../../../users/repositories/in-memory/InMemoryUsersRepository";
 import { InMemoryStatementsRepository } from "../../repositories/in-memory/InMemoryStatementsRepository";
+import { GetBalanceError } from "./GetBalanceError";
 import { GetBalanceUseCase } from "./GetBalanceUseCase";
 
 let getBalanceUseCase: GetBalanceUseCase;
@@ -22,7 +23,13 @@ describe('GetBalance UseCase', () => {
     });
     const balance = await getBalanceUseCase.execute({ user_id: user.id as string });
 
-    console.log(balance);
+    expect(balance).toHaveProperty("statement");
+    expect(balance).toHaveProperty("balance");
 
+  });
+  test('should not be return balance if user not exists', async () => {
+    expect(async () => {
+      const balance = await getBalanceUseCase.execute({ user_id: "any_id" });
+    }).rejects.toBeInstanceOf(GetBalanceError);
   });
 });
